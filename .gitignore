@@ -1,0 +1,10 @@
+*.pyc
+
+assets/bundles
+assets/server
+webpack-stats.*
+
+node_modules
+tags
+tags.*
+venv

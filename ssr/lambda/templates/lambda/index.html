@@ -1,0 +1,19 @@
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>django ssr</title>
+    <meta charset="utf-8">
+    {% render_bundle 'main' 'css' %}
+  </head>
+  <body>
+    <h1>server side rendered react... in django!</h1>
+    <p>{{ source }}</p>
+
+    <section id="{{ react.app }}">{{ react.html | safe }}</section>
+    <script>window.__INITIAL_STATE__ =  '{{ react.initial | escapejs }}';</script>
+
+    {% render_bundle 'main' 'js' %}
+  </body>
+</html>
