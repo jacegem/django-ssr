@@ -1,5 +1,7 @@
 *.pyc
 
+.env-*
+
 assets/bundles
 assets/server
 webpack-stats.*

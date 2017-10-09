@@ -11,7 +11,7 @@
     <h1>server side rendered react... in django!</h1>
     <p>{{ source }}</p>
 
-    <section id="{{ react.app }}">{{ react.html | safe }}</section>
+    <section id="{{ app }}">{{ react.html | safe }}</section>
     <script>window.__INITIAL_STATE__ =  '{{ react.initial | escapejs }}';</script>
 
     {% render_bundle 'main' 'js' %}

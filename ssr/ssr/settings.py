@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -147,3 +146,6 @@ WEBPACK_LOADER = {
     }
 }
 
+
+REACT_LOCAL = os.environ.get('REACT_LOCAL')
+REACT_URL = os.environ.get('REACT_URL')

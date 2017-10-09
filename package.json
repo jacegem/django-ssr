@@ -6,7 +6,14 @@
   "author": "Derek Hurley",
   "license": "MIT",
   "scripts": {
-    "start": "webpack --config assets/webpack.config.js --watch -d --progress & python ssr/manage.py runserver 8080"
+    "webpack": "webpack --config assets/webpack.config.js --watch -d --progress",
+    "serve": "nodemon assets/js/server/server.js",
+    "watch": "yarn webpack & if [ \"$REACT_LOCAL\" != \"false\" ]; then yarn serve; fi",
+    "start": "yarn watch & python ssr/manage.py runserver 8080",
+    "clean": "rm -rf assets/bundles && rm -rf assets/server",
+    "build": "yarn run clean && NODE_ENV=production webpack --progress --config assets/webpack.config.js",
+    "bundle": "yarn run build && ./scripts/bundle_lambda.sh",
+    "deploy": "yarn run bundle && ./scripts/deploy_lambda.sh alpha `git rev-parse HEAD`"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -14,8 +21,11 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "body-parser": "^1.18.2",
     "css-loader": "^0.28.7",
+    "express": "^4.16.1",
     "extract-text-webpack-plugin": "^3.0.1",
+    "nodemon": "^1.12.1",
     "style-loader": "^0.19.0",
     "webpack": "^3.6.0",
     "webpack-bundle-tracker": "^0.2.0"
