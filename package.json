@@ -10,7 +10,7 @@
     "serve": "nodemon assets/js/server/server.js",
     "watch": "yarn webpack & if [ \"$REACT_LOCAL\" != \"false\" ]; then yarn serve; fi",
     "start": "yarn watch & python ssr/manage.py runserver 8080",
-    "clean": "rm -rf assets/bundles && rm -rf assets/server",
+    "clean": "rm -rf assets/bundles",
     "build": "yarn run clean && NODE_ENV=production webpack --progress --config assets/webpack.config.js",
     "bundle": "yarn run build && ./scripts/bundle_lambda.sh",
     "deploy": "yarn run bundle && ./scripts/deploy_lambda.sh alpha `git rev-parse HEAD`"

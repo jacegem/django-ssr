@@ -5,9 +5,16 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const debug = (process.env.NODE_ENV !== 'production');
 
-const baseConfig = {
+const config = {
     context: __dirname,
     devtool: debug ? 'cheap-module-eval-source-map' : 'source-map',
+
+    entry: './js/ssr/index.js',
+
+    output: {
+        path: path.join(__dirname, './bundles/'),
+        filename: `[name]-[hash].js`
+    },
 
     module: {
         rules: [
@@ -27,7 +34,8 @@ const baseConfig = {
     },
 
     plugins: [
-        new ExtractTextPlugin({ filename: `[name]-[hash].css` })
+        new ExtractTextPlugin({ filename: `[name]-[hash].css` }),
+        new BundleTracker({ filename: './webpack-stats.json' }),
     ],
 
     resolve: {
@@ -36,34 +44,8 @@ const baseConfig = {
     }
 };
 
-const clientConfig = Object.assign({}, baseConfig, {
-    entry: './js/ssr/index.js',
-
-    output: {
-        path: path.join(__dirname, './bundles/'),
-        filename: `[name]-[hash].js`
-    },
-
-    plugins: baseConfig.plugins.concat([
-        new BundleTracker({ filename: './webpack-stats.json' }),
-    ]),
-});
-
-const serverConfig = Object.assign({}, baseConfig, {
-    entry: './js/ssr/index.js',
-
-    output: {
-        path: path.join(__dirname, './server/'),
-        filename: `[name]-[hash].js`
-    },
-
-    plugins: baseConfig.plugins.concat([
-        new BundleTracker({ filename: './webpack-stats.server.json' }),
-    ]),
-});
-
 if (!debug) {
-    [clientConfig, serverConfig].forEach(conf => conf.plugins.push(...[
+    config.plugins.push(...[
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
         new webpack.optimize.UglifyJsPlugin({
             beautify: false,
@@ -72,7 +54,7 @@ if (!debug) {
             mangle: true,
             sourceMap: true,
         }),
-    ]));
+    ]);
 }
 
-module.exports = [clientConfig, serverConfig];
+module.exports = config;

@@ -140,10 +140,6 @@ WEBPACK_LOADER = {
         'BUNDLE_DIR_NAME': 'bundles/',
         'STATS_FILE': local_join('..', '..', 'webpack-stats.json'),
     },
-    'SERVER': {
-        'BUNDLE_DIR_NAME': 'server/',
-        'STATS_FILE': local_join('..', '..', 'webpack-stats.server.json'),
-    }
 }
 
 
