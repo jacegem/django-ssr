@@ -24,6 +24,7 @@ def render_react(app, props=None):
     }
     local = json.loads(settings.REACT_LOCAL)
     if not local:
+        # include aws creds in request
         creds = boto3.session.Session().get_credentials()
         auth = AWSV4Sign(creds, 'us-east-1', 'execute-api')
         kwargs.update({'auth': auth})
@@ -36,6 +37,6 @@ def index(request):
     context = {
         'app': 'lambda',
         'react': render_react('lambda', {'cool': 'story'}),
-        'source': 'django',
+        'source': 'still inside a django template',
     }
     return render(request, 'lambda/index.html', context)
